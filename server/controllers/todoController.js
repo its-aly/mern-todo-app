@@ -46,11 +46,15 @@ const deleteTodoById = async (req, res) => {
 //UPDATE BY ID
 const updateTodoById = async (req, res) => {
   try {
+    // getting todo by id for operations
     const todo = await Todo.findById(req.params.id);
     if (!todo) return res.status(404).json("Todo not found");
-
-    todo.text = req.body.text;
-    todo.completed = req.body.completed;
+    if (req.body.text !== undefined) {
+      todo.text = req.body.text;
+    }
+    if (req.body.completed !== undefined) {
+      todo.completed = req.body.completed;
+    }
 
     await todo.save();
     res.json("Todo updated!");
